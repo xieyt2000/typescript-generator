@@ -225,7 +225,7 @@ public class TaggedUnionsTest {
     public void testTaggedUnionsWithInterfaces() {
         final Settings settings = TestUtils.settings();
         final String output = new TypeScriptGenerator(settings).generateTypeScript(Input.from(IShape2.class));
-        final String expected = (
+        final String expected1 = (
                 "\n" +
                 "interface IShape2 {\n" +
                 "    kind: 'circle' | 'square' | 'rectangle';\n" +
@@ -254,7 +254,38 @@ public class TaggedUnionsTest {
                 "type IShape2Union = CSquare2 | CRectangle2 | CCircle2;\n" +
                 ""
                 ).replace('\'', '"');
-        Assertions.assertEquals(expected, output);
+
+        final String expected2 = (
+                "\n" +
+                "interface IShape2 {\n" +
+                "    kind: 'circle' | 'square' | 'rectangle';\n" +
+                "}\n" +
+                "\n" +
+                "interface CSquare2 extends IQuadrilateral2 {\n" +
+                "    kind: 'square';\n" +
+                "    size: number;\n" +
+                "}\n" +
+                "\n" +
+                "interface CRectangle2 extends IQuadrilateral2 {\n" +
+                "    kind: 'rectangle';\n" +
+                "    height: number;\n" +
+                "    width: number;\n" +
+                "}\n" +
+                "\n" +
+                "interface CCircle2 extends IShape2 {\n" +
+                "    kind: 'circle';\n" +
+                "    radius: number;\n" +
+                "}\n" +
+                "\n" +
+                "interface IQuadrilateral2 extends IShape2 {\n" +
+                "    kind: 'square' | 'rectangle';\n" +
+                "}\n" +
+                "\n" +
+                "type IShape2Union = CSquare2 | CRectangle2 | CCircle2;\n" +
+                ""
+                ).replace('\'', '"');
+        
+        Assertions.assertTrue(output.equals(expected1) || output.equals(expected2));
     }
 
     @Test

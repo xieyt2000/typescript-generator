@@ -42,3 +42,6 @@ nbactions.xml
 # generated files
 typescript-generator-core/src/test/**/*.js
 typescript-generator-core/src/test/**/*.js.map
+
+# NonDex
+typescript-generator-core/.nondex/
